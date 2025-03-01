@@ -38,7 +38,7 @@ print("[INFO] rotate by {} degrees to correct".format(
 print("[INFO] detected script: {}".format(osd_data["script"]))
 
 # Rotate image to correct orientation
-# corrected_image = imutils.rotate_bound(image, angle=osd_data["rotate"])
+corrected_image = imutils.rotate_bound(image, angle=osd_data["rotate"])
 
 # # Display the corrected image
 # cv2.imshow('Corrected Image', corrected_image)
