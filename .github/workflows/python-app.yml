@@ -1,6 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
+
 name: Python application
 
 on:
@@ -8,75 +9,13 @@ on:
   push:
     branches: [ "main" ]
 
-concurrency:
-  group: ${{ github.workflow}}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
-
 permissions:
   contents: read
 
-env:
-  FORCE_COLOR: "1"
-
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build:
-    name: Test and Package
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [ "Windows", "macOS", "Ubuntu-24.04", "Fedora-40", "iOS", "Android"]
-        include:
-          - target: "Windows"
-            output-format: "app"
-            runs-on: "windows-latest"
 
-          - target: "macOS"
-            output-format: "app"
-            runs-on: "macos-latest"
-
-          - target: "Ubuntu-24.04"
-            platform: "Linux"
-            output-format: "system"
-            runs-on: "ubuntu-latest"
-            pre-command: "sudo apt -y install socat"
-            briefcase-run-prefix: "xvfb-run"
-            briefcase-args: "--target ubuntu:24.04"
-
-          - target: "Fedora-40"
-            platform: "Linux"
-            output-format: "system"
-            runs-on: "ubuntu-latest"
-            pre-command: "sudo apt -y install socat"
-            briefcase-run-prefix: "xvfb-run"
-            briefcase-args: "--target fedora:40"
-
-          - target: "iOS"
-            output-format: "Xcode"
-            runs-on: "macos-latest"
-            briefcase-run-args: "--device 'iPhone SE (3rd generation)'"
-
-          - target: "Android"
-            output-format: "Gradle"
-            runs-on: "ubuntu-latest"
-            pre-command: |
-              # Enable KVM permissions for the emulator
-              echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
-                | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-              sudo udevadm control --reload-rules
-              sudo udevadm trigger --name-match=kvm
-            briefcase-run-args: >-
-              --device '{"avd":"beePhone"}'
-              --shutdown-on-exit
-              --Xemulator=-no-window
-              --Xemulator=-no-snapshot
-              --Xemulator=-no-audio
-              --Xemulator=-no-boot-anim
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
