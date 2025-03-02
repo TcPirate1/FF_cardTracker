@@ -5,6 +5,7 @@ Python mobile app that tracks your card collection
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
+# from image_orientation.py import processImage
 
 
 class HelloWorld(toga.App):
@@ -42,7 +43,7 @@ class HelloWorld(toga.App):
         self.main_window.content = main_box
         self.main_window.show()
 
-    async def take_photo(self, widget):
+    async def take_photo(self, widget, **kwargs):
         try:
             if not self.camera.has_permission:
                 await self.camera.request_permission()
